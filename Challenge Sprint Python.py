@@ -9,6 +9,19 @@ def pontis():
 def linha():
     print(''*38)
 
+#Definindo o estoque que poderá ser usado em todas as funções
+Estoque = {
+    'Placa solar 30x24': 250,
+    'Placa solar 100x94': 100,
+    'Placa solar 66x60': 65,
+    'Placa solar 200x194': 55,
+    'Cabos': 2000,
+    'Placa mãe': 1500,
+    'Gerador de raios': 200,
+    'Controle': 1000,
+    'Base': 500
+}
+conferirEstoque = ['Placa solar 30x24','Placa solar 100x94','Placa solar 66x60','Placa solar 200x194','Cabos','Placa mãe','Gerador de raios','Controle','Base']
 
 #Criando a função do menu inicial
 def menu():
@@ -29,28 +42,30 @@ def menu():
     
     escolha = int(input('Escolha o número da sua opção!'))
     linha()
+
     match escolha:
         case 1:
             acessarEstoque()
         case 2:
-            produtosComprar = input('Quais são os produtos que você deseja comprar? (Separados por vírgula)').split(',')
+            def comprar(*args):
+                for i in args:
+                    iUpper = i.capitalize()
+                    if i in conferirEstoque or iUpper in conferirEstoque:
+                        qtdComprar = int(input(f'Qual a quantidade de {iUpper} você deseja comprar?'))
+                        if qtdComprar < Estoque[iUpper]:
+                                Estoque[iUpper] -= qtdComprar
+                                print(Estoque)
+                                print('Produto comprado, estoque atualizado...')
+                        else:
+                            print('Quantidade em estoque insuficiente...')
+                    else:
+                        print(f'Item {iUpper} não existente em nosso estoque ou entrada de dados errônea...')
+            produtosComprar = input('Digite os produtos que você deseja comprar separados por vírgula e espaço: ').split(', ')
             comprar(*produtosComprar)
         case 3:
             efetuarEncomenda()
         case 4:
             melhorar()
-
-Estoque = {
-    '| Placa solar 30x24 |': 250,
-    '| Placa solar 100x94 |': 100,
-    '| Placa solar 66x60 |': 65,
-    '| Placa solar 200x194 |': 55,
-    '| Cabos |': 2000,
-    '| Placa mãe |': 1500,
-    '| Gerador de raios UV |': 200,
-    '| Controle |': 1000,
-    '| Base |': 500
-}
 
 #Criando as demais funções que orquestrarão o projeto
 def acessarEstoque():
@@ -60,7 +75,7 @@ def acessarEstoque():
     pontis()
 
     for produtos, quantidade in Estoque.items():
-        print(f'{produtos} Quantidade: {quantidade} ')
+        print(f'{produtos} ----- Quantidade: {quantidade} ')
         linha()
 
 
@@ -68,8 +83,22 @@ def acessarEstoque():
     voltar = input('Você deseja ir ao setor de compras?(y/n)')
     match voltar:
         case 'y':
-            comprar()
-            return Estoque
+            def comprar(*args):
+                for i in args:
+                    iUpper = i.capitalize()
+                    if i in conferirEstoque or iUpper in conferirEstoque:
+                        qtdComprar = int(input(f'Qual a quantidade de {iUpper} você deseja comprar?'))
+                        if qtdComprar < Estoque[iUpper]:
+                                Estoque[iUpper] -= qtdComprar
+                                print(Estoque)
+                                print('Produto comprado, estoque atualizado...')
+                        else:
+                            print('Quantidade em estoque insuficiente...')
+                    else:
+                        print(f'Item {iUpper} não existente em nosso estoque ou entrada de dados errônea...')
+            produtosComprar = input('Digite os produtos que você deseja comprar separados por vírgula e espaço: ').split(', ')
+            comprar(*produtosComprar)
+            return comprar(*produtosComprar)
         case 'n':
             linha()
             voltarAoMenu = input('Você deseja voltar ao menu?(y/n)')
@@ -88,23 +117,25 @@ def melhorar():
     linha()
     Topicos = {
         'Demora no atendimento': 5,
-        'Falta de informações': 4,
+        'Falta de contato': 4,
         'Mau funcionamento': 0,
         'Demora na entrega': 1,
         'Outros': 6
     }
+    TopicosConferir = ['Demora no atendimento','Falta de contato', 'Falta de informacoes', 'Mau funcionamento', 'Demora na entrega', 'Outros']
     for motivo in Topicos:
         print(motivo)
         linha()
-    oQueMelhorar = input('Digite qual foi o seu problema:').lower()
+    oQueMelhorar = input('Digite qual foi o seu problema:').capitalize()
+    linha()
     pontis()
-    linha() 
 
-    if oQueMelhorar in (motivo.lower() for motivo in Topicos):
+
+    if oQueMelhorar in TopicosConferir:
         print('Ok, obrigado pela avaliação, iremos nos esforçar em melhorar!')
         pontis()
-        linha()
-
+        linha()        
+        
         Topicos[oQueMelhorar.capitalize()] += 1
         for motivo, contagem in Topicos.items():
             print(f'{motivo}: {contagem}')
@@ -112,17 +143,67 @@ def melhorar():
     else:
         print('Motivo não reconhecido. Por favor, escolha um motivo válido.')
         linha()
-
-    
-        
-
-
-def comprar(*args):
-    print('')
-
 def efetuarEncomenda():
-    print('')
+    print('Olá, seja bem-vindo à central de encomendas de placas solares da IMSAC')
+    voltagemEncomenda = int(input('Qual seria a voltagem da placa desejada? (em V)'))
+    linha()
+    tamanhoEncomenda = int(input('Qual seria o tamanho da área da placa desejada? (em m²)'))
+    preco = voltagemEncomenda * tamanhoEncomenda
+    tempo = tamanhoEncomenda * 2
+    linha()
+    print(f'Correto, o preço da sua placa ficou em R${preco}')
+    linha()
+    confirmar = input('Você deseja confirmar e comprar esta placa? (y/n)')
+    linha()
+    match confirmar:
+        case 'y':
+            linha()
+            print(f'Correto, obrigado por comprar conosco! Seu pedido chegará em aproximadamente {tempo} dias!')
+            linha()
+        case 'Y':
+            linha()
+            print(f'Correto, obrigado por comprar conosco! Seu pedido chegará em aproximadamente {tempo} dias!')
+            linha()
 
+        case 'n':
+            print('Poxa, que pena!')
+            linha()
+            voltar = input('Você deseja voltar ao menu? (y/n)')
+            match voltar:
+                case 'y':
+                    menu()
+                case 'Y':
+                    menu()
+                case 'n':
+                    linha()
+                    print('Ok, finalizando o programa...')
+                    linha()
+                    sys.exit()
+                case 'N':
+                    linha()
+                    print('Ok, finalizando o programa...')
+                    linha()
+                    sys.exit()
+
+        case 'N': 
+            print('Poxa, que pena!')
+            linha()
+            voltar = input('Você deseja voltar ao menu? (y/n)')
+            match voltar:
+                case 'y':
+                    menu()
+                case 'Y':
+                    menu()
+                case 'n':
+                    linha()
+                    print('Ok, finalizando o programa...')
+                    linha()
+                    sys.exit()
+                case 'N':
+                    linha()
+                    print('Ok, finalizando o programa...')
+                    linha()
+                    sys.exit()
 
 
 menu()
@@ -130,3 +211,5 @@ menu()
 
 
 #||||||
+
+
