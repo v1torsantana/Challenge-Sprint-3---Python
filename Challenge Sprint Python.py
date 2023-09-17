@@ -173,11 +173,17 @@ def efetuarEncomenda():
     match confirmar:
         case 'y':
             linha()
-            print(f'Correto, obrigado por comprar conosco! Seu pedido chegará em aproximadamente {tempo} dias!')
+            pontis()
+            print('Correto, obrigado por comprar conosco!')
+            print(f'Seu pedido chegará em aproximadamente {tempo} dias!')
+            pontis()
             linha()
         case 'Y':
             linha()
-            print(f'Correto, obrigado por comprar conosco! Seu pedido chegará em aproximadamente {tempo} dias!')
+            pontis()
+            print('Correto, obrigado por comprar conosco!')
+            print(f'Seu pedido chegará em aproximadamente {tempo} dias!')
+            pontis()
             linha()
 
         case 'n':
@@ -191,12 +197,16 @@ def efetuarEncomenda():
                     menu()
                 case 'n':
                     linha()
+                    pontis()
                     print('Ok, finalizando o programa...')
+                    pontis()
                     linha()
                     sys.exit()
                 case 'N':
                     linha()
+                    pontis()
                     print('Ok, finalizando o programa...')
+                    pontis()
                     linha()
                     sys.exit()
 
@@ -211,12 +221,16 @@ def efetuarEncomenda():
                     menu()
                 case 'n':
                     linha()
+                    pontis()
                     print('Ok, finalizando o programa...')
+                    pontis()
                     linha()
                     sys.exit()
                 case 'N':
                     linha()
+                    pontis()
                     print('Ok, finalizando o programa...')
+                    pontis()
                     linha()
                     sys.exit()
 
