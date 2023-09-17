@@ -1,3 +1,4 @@
+from unidecode import unidecode
 import sys
 #Criando funções para estilização
 def ponti():
@@ -8,6 +9,9 @@ def pontis():
 
 def linha():
     print(''*38)
+
+def remover_acentos(x):
+        return unidecode(x)
 
 #Definindo o estoque que poderá ser usado em todas as funções
 Estoque = {
@@ -21,7 +25,8 @@ Estoque = {
     'Controle': 1000,
     'Base': 500
 }
-conferirEstoque = ['Placa solar 30x24','Placa solar 100x94','Placa solar 66x60','Placa solar 200x194','Cabos','Placa mãe','Gerador de raios','Controle','Base']
+#Criando uma lista onde o for será rodado, para conferir a disponibilidade no estoque
+conferirEstoque = ['Placa solar 30x24','Placa solar 100x94','Placa solar 66x60','Placa solar 200x194','Cabos','Placa mãe', 'Placa mae','Gerador de raios','Controle','Base']
 
 #Criando a função do menu inicial
 def menu():
@@ -49,13 +54,23 @@ def menu():
         case 2:
             def comprar(*args):
                 for i in args:
+                    if i == 'placa mae' or i == 'Placa mae':
+                        i = 'Placa mãe'
                     iUpper = i.capitalize()
-                    if i in conferirEstoque or iUpper in conferirEstoque:
+                    if iUpper in conferirEstoque:
+                        linha()
+                        pontis()
                         qtdComprar = int(input(f'Qual a quantidade de {iUpper} você deseja comprar?'))
+                        pontis()
                         if qtdComprar < Estoque[iUpper]:
-                                Estoque[iUpper] -= qtdComprar
-                                print(Estoque)
-                                print('Produto comprado, estoque atualizado...')
+                            Estoque[iUpper] -= qtdComprar
+                            linha()
+                            ponti()
+                            print('Produto comprado, estoque atualizado...')
+                            ponti()
+                            linha()
+                            for x,y in Estoque.items():
+                                print(f'{x} -------- {y}')     
                         else:
                             print('Quantidade em estoque insuficiente...')
                     else:
@@ -86,7 +101,7 @@ def acessarEstoque():
             def comprar(*args):
                 for i in args:
                     iUpper = i.capitalize()
-                    if i in conferirEstoque or iUpper in conferirEstoque:
+                    if i in conferirEstoque:
                         qtdComprar = int(input(f'Qual a quantidade de {iUpper} você deseja comprar?'))
                         if qtdComprar < Estoque[iUpper]:
                                 Estoque[iUpper] -= qtdComprar
@@ -205,11 +220,11 @@ def efetuarEncomenda():
                     linha()
                     sys.exit()
 
-
+#Chamando o menu
 menu()
 
 
 
-#||||||
+
 
 
